@@ -6,7 +6,7 @@ path = r'E:\数据\1229'
 outPath = r'E:\数据\1229'
 dmaas = F.listFiles(path,'','m')
 pList = []
-Dmaa_all = arcpy.CreateFeatureclass_management(outPath,'石渠县河流管理范围面14532.shp', 'POLYGON')
+Dmaa_all = arcpy.CreateFeatureclass_management(outPath,'石渠县河流管理范围面1456.shp', 'POLYGON')
 arcpy.DefineProjection_management(Dmaa_all, coor_system='4542')
 arcpy.AddField_management(Dmaa_all, '名称', 'TEXT')
 arcpy.AddField_management(Dmaa_all, '省', 'TEXT')
