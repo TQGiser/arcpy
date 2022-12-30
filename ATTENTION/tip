@@ -1,0 +1,83 @@
+print str(cn).decode('string_escape')
+
+import json
+print json.dump(cn,encoding='utf-8',ensure_ascii=False)
+
+'K' + str(int(row[4] / 1000.0)) + '+' + '%03d' % (row[4]%1000)
+
+e = 'E' + '%0.8f' % round(XY2LatLon(x, y, 99)[1], 8) + '°'.decode('utf-8')
+n = 'N' + '%0.8f' % round(XY2LatLon(x, y, 99)[0], 8) + '°'.decode('utf-8')
+
+math.cos(60*(math.pi/180))   角度转弧度
+
+字段计算器：
+'E' + str('%0.8f'%round(float( !经度!) ,8)) + '°'.decode('utf-8')
+'N' + str('%0.8f'%round(float( !纬度!) ,8)) + '°'.decode('utf-8')
+'%.4f'%round(!shape.centroid.Y!,4)
+'%.4f'%round(!shape.centroid.X!,4)
+
+
+Con(IsNull("streams"), 0, "streams")
+
+with arcpy.da.SearchCursor('DMAP', ['SHAPE@', 'NAME','NUM'],sql_clause=('All', 'ORDER BY NUM')) as dmaps:
+
+[NAME] + '\n' + [NUM] + '\n' + [H]
+
+pandas txt 乱码
+        df = pd.read_csv(s,encoding='GB18030')
+
+031°26′30.754348″
+
+int(a.split('°')[0])
+
+float(a.split("′")[0].split('°')[1])/60
+
+float(a.split("′")[1].replace('″',''))/3600
+
+
+for name1,value1 in df1.iterrows():
+    riverName = df1.loc[name1,'河流'.decode('utf-8')]
+    # print riverName
+    hthl = df2.loc[df2['河流名称'.decode('utf-8')] == riverName,'水系'.decode('utf-8')]
+    if hthl.values:
+        print riverName,hthl.values[0]
+
+"dmh" LIKE 'CXH-%'
+
+SELECT * FROM movies where title like "%toy story%"
+
+
+with arcpy.da.SearchCursor(glq,['SHAPE@','county']) as yb:
+    for row in yb:
+        with arcpy.da.SearchCursor(tk,['SHAPE@','name']) as yb2:
+            for row2 in yb2:
+                tempShp = [row[0].clip(row2[0].extent),row2[1]]
+                tempShps.append(tempShp)
+
+
+for mdb in mdbs:
+    dmap = path.decode('utf-8') + '\\' + mdb + '\\' + 'DLG' + '\\' + 'DMAP'
+    riverName = mdb.replace('.mdb','')
+    with arcpy.da.SearchCursor(dmap,['NAME','RuleID'],where_clause= "ruleid = 2 or ruleid =4") as yb:
+        for row in yb:
+            print riverName,row[0],row[1]
+
+
+with arcpy.da.SearchCursor('glqPoint','According',"Type = '岸线保护区'") as yb:
+
+a = r'E:\测试文件夹\test\all.shp'
+b = 'Id'
+arcpy.AddFieldDelimiters
+'"Id"'
+
+for j in range(1,dmxShapeLength+1):
+    expression = '"aa" = {}'.format(j)
+    with arcpy.da.SearchCursor(dmd,['SHAPE@','aa','RASTERVALU'],where_clause=expression) as yb:
+        for row in yb:
+            print row[1],row[2]
+
+expression = '{} = 0'.format(arcpy.AddFieldDelimiters(lcd, 'LC'))
+with arcpy.da.SearchCursor(lcd, ['SHAPE@X', 'SHAPE@Y', 'LC'], where_clause=expression) as yb:
+    for row in yb:
+        x = row[0]
+        y = row[1]
