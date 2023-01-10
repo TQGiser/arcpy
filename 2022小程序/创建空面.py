@@ -2,9 +2,9 @@
 import arcpy
 import F
 arcpy.env.overwriteOutput = True
-path = r'E:\数据\1229'
-outPath = r'E:\数据\1229'
-dmaas = F.listFiles(path,'','m')
+# path = r'E:\数据\1229'
+outPath = r'E:\Test'
+# dmaas = F.listFiles(path,'','m')
 pList = []
 Dmaa_all = arcpy.CreateFeatureclass_management(outPath,'石渠县河流管理范围面20230109.shp', 'POLYGON')
 arcpy.DefineProjection_management(Dmaa_all, coor_system='4542')
