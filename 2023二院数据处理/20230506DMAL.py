@@ -22,13 +22,14 @@ for dmal in dmalsEY:
     print xzq
     with arcpy.da.UpdateCursor(dmal,['SHAPE@','RIVER']) as yb:
         for row in yb:
-            print row[1]
+
             shape = fr(dmalCS,xzq,"%s" % row[1].encode('utf-8'))
             if(shape != None):
+                print row[1]
                 row[0] = shape;
                 yb.updateRow(row)
-            else:
-                yb.deleteRow()
+            # else:
+            #     yb.deleteRow()
 
 
 #
