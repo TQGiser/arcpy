@@ -38,12 +38,14 @@ def XY2LatLon(X, Y, L0):
     longitude = longitude1 / iPI
     latitude = latitude1 / iPI
     return latitude, longitude
-df = pd.read_excel(r'D:\T\1111.xlsx'.decode('utf-8'))
+df = pd.read_excel(r'E:\T.xlsx'.decode('utf-8'))
 for name,value in df.iterrows():
     x = df.loc[name,'x']
     y = df.loc[name,'y']
+    # print x,y
     e = 'E' + '%0.8f'%round(XY2LatLon(x,y,102)[1],8) + '°'.decode('utf-8')
     n = 'N' + '%0.8f'%round(XY2LatLon(x,y,102)[0],8) + '°'.decode('utf-8')
-    # e = 'E' + '%0.8f'%df.loc[name,'e'] + '°'.decode('utf-8')
-    # n = 'N' + '%0.8f' % df.loc[name, 'n'] + '°'.decode('utf-8')
-    print df.loc[name,'name'],x,y,e,n
+    print '%0.8f'%round(XY2LatLon(x,y,102)[1],8),'%0.8f'%round(XY2LatLon(x,y,102)[0],8)
+    # # e = 'E' + '%0.8f'%df.loc[name,'e'] + '°'.decode('utf-8')
+    # # n = 'N' + '%0.8f' % df.loc[name, 'n'] + '°'.decode('utf-8')
+    # print df.loc[name,'name'],x,y,e,n
