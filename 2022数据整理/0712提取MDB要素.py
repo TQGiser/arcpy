@@ -1,6 +1,6 @@
 #coding=utf-8
 import arcpy
-path = r'E:\2022年项目\0815理塘断面表格\mdb\99'
+path = r'E:\workData\20230825岸线规划\君坝河\DLG\MDBS'
 arcpy.env.workspace = path
 arcpy.env.overwriteOutput = True
 mdbs = arcpy.ListFiles('*.mdb')
@@ -16,4 +16,4 @@ def extract_FromMDB(shpname):
         shps.append(shp2)
     arcpy.Merge_management(shps,path + '\\' + 'shp' + '\\' + '{}.shp'.format((shpname)))
 
-extract_FromMDB('DMAL')
+extract_FromMDB('HYDL')
