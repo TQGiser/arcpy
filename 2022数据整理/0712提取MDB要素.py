@@ -1,6 +1,6 @@
 #coding=utf-8
 import arcpy
-path = r'C:\Users\Administrator\Desktop\新建文件夹'
+path = r'E:\workData\20230825岸线规划\傍河\DLG\MDBs'
 arcpy.env.workspace = path
 arcpy.env.overwriteOutput = True
 mdbs = arcpy.ListFiles('*.mdb')
@@ -16,4 +16,4 @@ def extract_FromMDB(shpname):
         shps.append(shp2)
     arcpy.Merge_management(shps,path + '\\' + 'shp' + '\\' + '{}.shp'.format((shpname)))
 
-extract_FromMDB('DMAL')
+extract_FromMDB('TERL')
