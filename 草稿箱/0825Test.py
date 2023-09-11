@@ -60,3 +60,15 @@ for p1 in p1s:
         print cp
         cs.insertRow([cp])
     i+=1
+
+
+def extract_by_part(shpFile,shpName,ext_path):
+    cs = arcpy.da.SearchCursor(shpFile,'SHAPE@')
+    pls = [row[0] for row in cs]
+    i=1
+    for pl in pls:
+        aL = arcpy.CreateFeatureclass_management(ext_path, '{}{:03}.shp'.format(shpName,i), 'POLYGON')
+        cs = arcpy.da.InsertCursor(aL, ['SHAPE@'])
+        cs.insertRow([pl])
+        i+=1
+
