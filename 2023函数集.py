@@ -67,3 +67,23 @@ def creatPointShpFile_by_xlsx(xlFile,fileSavePath):
     for cn in p_cn:
         yb.insertRow(cn)
     del yb
+def extract_FromMDBs(mdbsPath,featureName):
+    """
+    根据分幅MDB提取各层要素
+    :param mdbsPath: mdb文件夹（单层，只有mdb文件）
+    :param featureName: 要素名称（'TERL','HYDA')等
+    :return:
+    """
+    arcpy.env.workspace = mdbsPath
+    arcpy.env.overwriteOutput = True
+    mdbs = arcpy.ListFiles('*.mdb')
+    arcpy.CreateFolder_management(mdbsPath, 'single')
+    arcpy.CreateFolder_management(mdbsPath, 'merge')
+    shps = []
+    for mdb in mdbs:
+        print mdb
+        shp = mdbsPath.decode('utf-8') + '\\' + mdb + '\\' + 'DLG' + '\\' + featureName
+        tempshpname = arcpy.Describe(mdb).name.replace('-','').replace('.mdb','') + arcpy.Describe(shp).name + '.shp'
+        shp2 = arcpy.FeatureClassToFeatureClass_conversion(shp,mdbsPath + '\\' + 'single',tempshpname)
+        shps.append(shp2)
+    arcpy.Merge_management(shps,mdbsPath + '\\' + 'merge' + '\\' + '{}.shp'.format((featureName)))
