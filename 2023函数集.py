@@ -32,7 +32,6 @@ def extract_by_part_withFields(shpFile,ext_path):
     """
     将包含多个要素的shp文件释放为单个的文件,包含属性字段
     :param shpFile: 总的shp文件
-    :param shpName: 提取出的文件命名前辍like:XX村_001
     :param ext_path: 释放的地址
     :return:
     """
@@ -48,3 +47,23 @@ def extract_by_part_withFields(shpFile,ext_path):
         cs = arcpy.da.InsertCursor(aL, ['*'])
         cs.insertRow(data)
         i+=1
+def creatPointShpFile_by_xlsx(xlFile,fileSavePath):
+    """
+    根据xlsx文件（包含x,y,name三列）创建点shape文件
+    :param xlFile: xlsx文件
+    :param fileSavePath: shape文件存储地址
+    :return:
+    """
+    import pandas as pd
+    arcpy.env.overwriteOutput = True
+    df = pd.read_excel(xlFile.decode('utf-8'))
+    p_cn = []
+    for name, value in df.iterrows():
+        cn = [df.loc[name, 'x'], df.loc[name, 'y'], df.loc[name, 'name']]
+        p_cn.append(cn)
+    p = arcpy.CreateFeatureclass_management(fileSavePath, 'newPoint', 'POINT')
+    arcpy.AddField_management(p, 'name', 'TEXT')
+    yb = arcpy.da.InsertCursor(p, ['SHAPE@X', 'SHAPE@Y', 'name'])
+    for cn in p_cn:
+        yb.insertRow(cn)
+    del yb
