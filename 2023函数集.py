@@ -19,11 +19,15 @@ def extract_by_part_emptyFields(shpFile,shpName,ext_path):
     :param ext_path: 释放的地址
     :return:
     """
+    shapeType = arcpy.Describe(shpFile).shapeType
     cs = arcpy.da.SearchCursor(shpFile,'SHAPE@')
     pls = [row[0] for row in cs]
     i=1
     for pl in pls:
-        aL = arcpy.CreateFeatureclass_management(ext_path, '{}{:03}.shp'.format(shpName,i), 'POLYGON')
+        aL = arcpy.CreateFeatureclass_management(
+            ext_path,
+            '{}{:03}.shp'.format(shpName,i),
+            shapeType)
         cs = arcpy.da.InsertCursor(aL, ['SHAPE@'])
         cs.insertRow([pl])
         i+=1
@@ -36,7 +40,7 @@ def extract_by_part_withFields(shpFile,ext_path):
     :return:
     """
     fileName = arcpy.Describe(shpFile).baseName.encode('utf-8')
-    cs = arcpy.da.SearchCursor(shpFile,['*'])
+    cs = arcpy.da.SearchCursor(shpFile,['SHAPE@','*'])
     shpDatasList = [row for row in cs]
     i=1
     for data in shpDatasList:
@@ -44,7 +48,7 @@ def extract_by_part_withFields(shpFile,ext_path):
             ext_path,
             '{}{:03}.shp'.format(fileName,i),
             template=shpFile)
-        cs = arcpy.da.InsertCursor(aL, ['*'])
+        cs = arcpy.da.InsertCursor(aL, ['SHAPE@','*'])
         cs.insertRow(data)
         i+=1
 def creatPointShpFile_by_xlsx(xlFile,fileSavePath):
@@ -85,5 +89,27 @@ def extract_FromMDBs(mdbsPath,featureName):
         shp = mdbsPath.decode('utf-8') + '\\' + mdb + '\\' + 'DLG' + '\\' + featureName
         tempshpname = arcpy.Describe(mdb).name.replace('-','').replace('.mdb','') + arcpy.Describe(shp).name + '.shp'
         shp2 = arcpy.FeatureClassToFeatureClass_conversion(shp,mdbsPath + '\\' + 'single',tempshpname)
+        shps.append(shp2)
+    arcpy.Merge_management(shps,mdbsPath + '\\' + 'merge' + '\\' + '{}.shp'.format((featureName)))
+
+def extract_FromMDBs_queryByField(mdbsPath,featureName,expression):
+    """
+    根据分幅MDB提取各层要素并根据字段内容筛选
+    :param mdbsPath: mdb文件夹（单层，只有mdb文件）
+    :param featureName: 要素名称（'TERL','HYDA')等
+    :param expression: 字段内容过滤(like 'GB = 210100')
+    :return:
+    """
+    arcpy.env.workspace = mdbsPath
+    arcpy.env.overwriteOutput = True
+    mdbs = arcpy.ListFiles('*.mdb')
+    arcpy.CreateFolder_management(mdbsPath, 'single')
+    arcpy.CreateFolder_management(mdbsPath, 'merge')
+    shps = []
+    for mdb in mdbs:
+        print mdb
+        shp = mdbsPath.decode('utf-8') + '\\' + mdb + '\\' + 'DLG' + '\\' + featureName
+        tempshpname = arcpy.Describe(mdb).name.replace('-','').replace('.mdb','') + arcpy.Describe(shp).name + '.shp'
+        shp2 = arcpy.FeatureClassToFeatureClass_conversion(shp,mdbsPath + '\\' + 'single',tempshpname,where_clause=expression)
         shps.append(shp2)
     arcpy.Merge_management(shps,mdbsPath + '\\' + 'merge' + '\\' + '{}.shp'.format((featureName)))
