@@ -1,7 +1,7 @@
 #coding=utf-8
 import arcpy
 tl = r'E:\workData\20230825岸线规划\易日沟\DLG\2年线.shp'
-def query_l_legnth(poline_file):
+def query_l_length(poline_file):
     """
     :param poline_file: 线shp文件
     :return:
@@ -73,13 +73,15 @@ def creatPointShpFile_by_xlsx(xlFile,fileSavePath):
     del yb
 def extract_FromMDBs(mdbsPath,featureName):
     """
-    根据分幅MDB提取各层要素
+    根据分幅MDB提取各层要素,设置env环境，不要M值和Z值
     :param mdbsPath: mdb文件夹（单层，只有mdb文件）
     :param featureName: 要素名称（'TERL','HYDA')等
     :return:
     """
     arcpy.env.workspace = mdbsPath
     arcpy.env.overwriteOutput = True
+    arcpy.env.outputMFlag = "Disabled"
+    arcpy.env.outputZFlag = "Disabled"
     mdbs = arcpy.ListFiles('*.mdb')
     arcpy.CreateFolder_management(mdbsPath, 'single')
     arcpy.CreateFolder_management(mdbsPath, 'merge')
@@ -113,3 +115,5 @@ def extract_FromMDBs_queryByField(mdbsPath,featureName,expression):
         shp2 = arcpy.FeatureClassToFeatureClass_conversion(shp,mdbsPath + '\\' + 'single',tempshpname,where_clause=expression)
         shps.append(shp2)
     arcpy.Merge_management(shps,mdbsPath + '\\' + 'merge' + '\\' + '{}.shp'.format((featureName)))
+
+
